@@ -1,15 +1,19 @@
-import { useEffect, useState } from "react";
 import "./styles/Loading.css";
+
+import { useEffect, useState } from "react";
 import { useLoading } from "../context/LoadingProvider";
 
 import Marquee from "react-fast-marquee";
 
 const Loading = ({ percent }: { percent: number }) => {
   const { setIsLoading } = useLoading();
+
   const [loaded, setLoaded] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [clicked, setClicked] = useState(false);
 
+  const [isDesktopView, setIsDesktopView] = useState<boolean>(window.innerWidth > 1024);
+  
   if (percent >= 100) {
     setTimeout(() => {
       setLoaded(true);
@@ -18,6 +22,20 @@ const Loading = ({ percent }: { percent: number }) => {
       }, 1000);
     }, 600);
   }
+
+  useEffect(() => {
+    const resizeHandler = () => {
+      setIsDesktopView(window.innerWidth > 1024);
+    };
+    
+    resizeHandler();
+
+    window.addEventListener("resize", resizeHandler);
+    
+    return () => {
+      window.removeEventListener("resize", resizeHandler);
+    };
+  }, [isDesktopView]);
 
   useEffect(() => {
     import("./utils/initialFX").then((module) => {
@@ -35,9 +53,11 @@ const Loading = ({ percent }: { percent: number }) => {
 
   function handleMouseMove(e: React.MouseEvent<HTMLElement>) {
     const { currentTarget: target } = e;
+
     const rect = target.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
+    
     target.style.setProperty("--mouse-x", `${x}px`);
     target.style.setProperty("--mouse-y", `${y}px`);
   }
@@ -46,12 +66,12 @@ const Loading = ({ percent }: { percent: number }) => {
     <>
       <div className="loading-header">
         <a href="/#" className="loader-title" data-cursor="disable">
-          Logo
+          <img src="/images/jc-icon.png" alt="Logo" style={{ width: isDesktopView ? "100px" : "50px", }} />
         </a>
         <div className={`loaderGame ${clicked && "loader-out"}`}>
           <div className="loaderGame-container">
             <div className="loaderGame-in">
-              {[...Array(27)].map((_, index) => (
+              {[...Array(20)].map((_, index) => (
                 <div className="loaderGame-line" key={index}></div>
               ))}
             </div>
@@ -62,8 +82,8 @@ const Loading = ({ percent }: { percent: number }) => {
       <div className="loading-screen">
         <div className="loading-marquee">
           <Marquee>
-            <span> A Creative Developer</span> <span>A Creative Designer</span>
-            <span> A Creative Developer</span> <span>A Creative Designer</span>
+            <span> Desarrollador </span> <span> Diseñador </span>
+            <span> Desarrollador </span> <span> Diseñador </span>
           </Marquee>
         </div>
         <div
@@ -75,13 +95,13 @@ const Loading = ({ percent }: { percent: number }) => {
             <div className="loading-container">
               <div className="loading-content">
                 <div className="loading-content-in">
-                  Loading <span>{percent}%</span>
+                  Cargando.. <span> {percent}% </span>
                 </div>
               </div>
               <div className="loading-box"></div>
             </div>
             <div className="loading-content2">
-              <span>Welcome</span>
+              <span> Bienvenido </span>
             </div>
           </div>
         </div>

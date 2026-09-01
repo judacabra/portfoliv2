@@ -1,0 +1,48 @@
+.certifications-grid {
+  width: 85%;
+  margin: 0 auto;
+  display: grid;
+
+  /* Móvil */
+  grid-template-columns: 2fr;
+  gap: 20px;
+}
+
+/* 2 tarjetas */
+@media (min-width: 450px) {
+  .certifications-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 3 tarjetas */
+@media (min-width: 800px) {
+  .certifications-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 4 tarjetas */
+@media (min-width: 1100px) {
+  .certifications-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 6 tarjetas */
+@media (min-width: 1500px) {
+  .certifications-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.certification-card {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #6366f124;
+  border-radius: 15px;
+  padding: 10px;
+  /* Importante para que no se rompa el contenido */
+  min-width: 0;
+  background: #6366f124;
+}

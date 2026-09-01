@@ -1,3 +1,4 @@
+// Scene.tsx (actualizado)
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import setCharacter from "./utils/character";
@@ -20,6 +21,7 @@ const Scene = () => {
   const { setLoading } = useLoading();
 
   const [character, setChar] = useState<THREE.Object3D | null>(null);
+
   useEffect(() => {
     if (canvasDiv.current) {
       let rect = canvasDiv.current.getBoundingClientRect();
@@ -56,21 +58,66 @@ const Scene = () => {
       loadCharacter().then((gltf) => {
         if (gltf) {
           const animations = setAnimations(gltf);
-          hoverDivRef.current && animations.hover(gltf, hoverDivRef.current);
+
+          hoverDivRef.current &&
+            animations.hover(gltf, hoverDivRef.current);
+
           mixer = animations.mixer;
-          let character = gltf.scene;
+
+          const character = gltf.scene;
+
+          character.traverse((child: any) => {
+            if (!child.isMesh) return;
+
+            console.log(child.name)
+
+            switch (child.name.toLowerCase()) {
+              case "bodyshirt":
+                child.material = child.material.clone();
+                child.material.color.set("#000");
+                break;
+
+              case "pant":
+                child.material = child.material.clone();
+                child.material.color.set("#524b4b");
+                break;
+
+              case "shoe":
+                child.material = child.material.clone();
+                child.material.color.set("#000");
+                break;
+
+              case "sole":
+                child.material = child.material.clone();
+                child.material.color.set("#fff");
+                break;
+            }
+          });
+
+
           setChar(character);
           scene.add(character);
-          headBone = character.getObjectByName("spine006") || null;
-          screenLight = character.getObjectByName("screenlight") || null;
+
+          headBone =
+            character.getObjectByName("spine006") || null;
+
+          screenLight =
+            character.getObjectByName("screenlight") || null;
+
           progress.loaded().then(() => {
             setTimeout(() => {
               light.turnOnLights();
               animations.startIntro();
             }, 2500);
           });
+
           window.addEventListener("resize", () =>
-            handleResize(renderer, camera, canvasDiv, character)
+            handleResize(
+              renderer,
+              camera,
+              canvasDiv,
+              character
+            )
           );
         }
       });
@@ -106,6 +153,7 @@ const Scene = () => {
         landingDiv.addEventListener("touchstart", onTouchStart);
         landingDiv.addEventListener("touchend", onTouchEnd);
       }
+      
       const animate = () => {
         requestAnimationFrame(animate);
         if (headBone) {
@@ -126,6 +174,7 @@ const Scene = () => {
         renderer.render(scene, camera);
       };
       animate();
+      
       return () => {
         clearTimeout(debounce);
         scene.clear();

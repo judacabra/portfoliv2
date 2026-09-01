@@ -47,7 +47,7 @@
 }
 @media only screen and (min-width: 500px) {
   .header {
-    padding: 20px 0px;
+    padding: 15px 0px;
   }
   .header ul {
     flex-direction: row;
@@ -68,7 +68,7 @@
 }
 @media only screen and (min-width: 1200px) {
   .header {
-    padding: 35px 0px;
+    padding: 15px 0px;
   }
   .header ul {
     column-gap: 80px;
