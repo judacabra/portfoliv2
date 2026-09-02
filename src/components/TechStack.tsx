@@ -6,7 +6,7 @@ import { motion } from "motion/react";
 const TechStack = () => {
   const [isDark, setIsDark] = useState<boolean>(true);
 
-  const skillsData = [
+  const skillsData: any[] = [
     { skill: "React / Next.js", level: 97, category: "frontend" },
     { skill: "TypeScript", level: 95, category: "frontend" },
     { skill: "CSS / Tailwind", level: 93, category: "frontend" },

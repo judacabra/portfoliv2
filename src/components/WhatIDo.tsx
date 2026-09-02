@@ -27,7 +27,7 @@ const WhatIDo = () => {
   return (
     <div className="whatIDO" id="whatido">
       <div className="what-box">
-        <h2 className="title" style={{ zIndex: 10, }}>
+        <h2 className="title" style={{ zIndex: 10, marginLeft: -150, }}>
           MI <br /> 
           <span className="do-h2"> PERFIL </span>
         </h2>

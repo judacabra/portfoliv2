@@ -54,52 +54,68 @@ const Work = () => {
     },
     {
       scope: sectionRef,
-    }
+    },
   );
 
+  const myProjects: any[] = [
+    {
+      id: 1,
+      name: "MyMenu App",
+      category: "Plataforma de Menu a partir de QR",
+      tools: "Angular.js v15, FastAPI py",
+      imgURL: "/images/mymenu.png",
+    },
+    {
+      id: 2,
+      name: "Cobralo",
+      category: "Plataforma SAAS de punto de venta",
+      tools: "React.js con TS, Next.js con TS, Node v20",
+      imgURL: "/images/cobralo.png",
+    },
+    {
+      id: 3,
+      name: "App in",
+      category: "Asistencia con QA para empresas",
+      tools: "React native con TS, EXPO, Next.js con TS, Node v20",
+      imgURL: "/images/appin.png",
+    },
+  ];
+
   return (
-    <section
-      ref={sectionRef}
-      className="work-section"
-      id="work"
-    >
+    <section ref={sectionRef} className="work-section" id="work">
       <div className="work-container section-container">
         <div className="work-heading">
           <h2 className="work-heading-title">
             Mis <span>proyectos</span>
           </h2>
           <p className="work-heading-subtitle">
-            Algunos de los proyectos en los que he trabajado.
+            Algunos de los proyectos personales en los que he trabajado.
           </p>
         </div>
 
         <div className="work-viewport">
           <div className="work-flex">
-            {[...Array(6)].map((_, index) => (
+            {myProjects.map((p, index) => (
               <article className="work-box" key={index}>
                 <div className="work-info">
                   <div className="work-title">
-                    <h3>
-                      {String(index + 1).padStart(2, "0")}
-                    </h3>
+                    <h3>{String(index + 1).padStart(2, "0")}</h3>
 
                     <div>
-                      <h4>Project Name</h4>
-                      <p>Category</p>
+                      <h4>{p.name}</h4>
+                      <p>{p.category}</p>
                     </div>
                   </div>
 
                   <div className="work-tools">
-                    <h4>Tools and features</h4>
+                    <h4> Herramientas </h4>
 
-                    <p>
-                      Javascript, TypeScript, React, Threejs
-                    </p>
+                    <p>{p.tools}</p>
                   </div>
                 </div>
 
                 <WorkImage
-                  image="/images/placeholder.webp"
+                  image={p.imgURL}
                   alt={`Proyecto ${index + 1}`}
                 />
               </article>

@@ -9,13 +9,14 @@ import setCharacter from "./utils/character";
 import setLighting from "./utils/lighting";
 import handleResize from "./utils/resizeUtils";
 import setAnimations from "./utils/animationUtils";
-// import { GLTFLoader } from "three-stdlib";
+import { GLTFLoader } from "three-stdlib";
 
 const Scene = () => {
+  const { setLoading } = useLoading();
+  
   const canvasDiv = useRef<HTMLDivElement | null>(null);
   const hoverDivRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef(new THREE.Scene());
-  const { setLoading } = useLoading();
 
   const [character, setChar] = useState<THREE.Object3D | null>(null);
 
@@ -34,7 +35,7 @@ const Scene = () => {
     for (let x = 0; x < canvas.width; x += stripeWidth) {
       ctx.fillStyle =
         Math.floor(x / stripeWidth) % 2 === 0
-          ? "#551e1e"
+          ? "#9bb2ee"
           : "#c2c2c2";
 
       ctx.fillRect(x, 0, stripeWidth, canvas.height);
@@ -50,7 +51,7 @@ const Scene = () => {
     return texture;
   };
 
-  /*const loadAccessory = (path: string) => {
+  const loadAccessory = (path: string): Promise<THREE.Object3D> => {
     return new Promise<THREE.Object3D>((resolve, reject) => {
       const loader = new GLTFLoader();
 
@@ -63,20 +64,21 @@ const Scene = () => {
     });
   };
 
-  const addAccessory = (
+  const addAccessory = async (
     character: THREE.Object3D,
-    accessory: THREE.Object3D,
-    boneName: string,
+    accessoryPath: string,
     position = new THREE.Vector3(),
     rotation = new THREE.Euler(),
     scale = new THREE.Vector3(1, 1, 1)
-  ) => {
-    const bone = character.getObjectByName(boneName);
+  ): Promise<void> => {
+    const bone = character.getObjectByName("spine006");
 
     if (!bone) {
-      console.warn(`No se encontró el hueso: ${boneName}`);
+      console.warn(`No se encontró el hueso: ${"spine006"}`);
       return;
     }
+
+    const accessory: THREE.Object3D = await loadAccessory(accessoryPath);
 
     accessory.position.copy(position);
     accessory.rotation.copy(rotation);
@@ -85,32 +87,26 @@ const Scene = () => {
     bone.add(accessory);
   };
 
-  const loadHair = async (character: THREE.Object3D) => {
-    const hair = await loadAccessory("/models/head.glb");
+  const removeChilds = (character: THREE.Object3D, childs: string[]): void => {
+    childs.forEach(child => {
+      const exist = character.getObjectByName(child);
 
-    const head = character.getObjectByName("spine006");
-
-    if (!head) {
-      console.warn("No se encontró spine006");
-      return;
-    }
-
-    head.add(hair);
-
-    hair.position.set(.05, .5, -.86);
-    hair.rotation.set(.1, 5, 0);
-
-    hair.scale.set(1.6, 1.3, 1.4);
-  };*/
+      if (exist) exist.visible = false;
+    });
+  };
 
   useEffect(() => {
     if (canvasDiv.current) {
-      let rect = canvasDiv.current.getBoundingClientRect();
-      let container = { width: rect.width, height: rect.height };
-      const aspect = container.width / container.height;
-      const scene = sceneRef.current;
+      let rect: DOMRect = canvasDiv.current.getBoundingClientRect();
+      let container: any = { 
+        width: rect.width, 
+        height: rect.height,
+      };
 
-      const renderer = new THREE.WebGLRenderer({
+      const aspect: number = container.width / container.height;
+      const scene: THREE.Scene = sceneRef.current;
+
+      const renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer({
         alpha: true,
         antialias: true,
       });
@@ -123,7 +119,7 @@ const Scene = () => {
       
       canvasDiv.current.appendChild(renderer.domElement);
 
-      const camera = new THREE.PerspectiveCamera(14.5, aspect, 0.1, 1000);
+      const camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera(14.5, aspect, 0.1, 1000);
 
       camera.position.z = 10;
       camera.position.set(0, 13.1, 24.7);
@@ -134,11 +130,11 @@ const Scene = () => {
       let screenLight: any | null = null;
       let mixer: THREE.AnimationMixer;
 
-      const clock = new THREE.Clock();
+      const clock: THREE.Clock = new THREE.Clock();
 
-      const light = setLighting(scene);
+      const light: any = setLighting(scene);
 
-      let progress = setProgress((value) => setLoading(value));
+      let progress: any = setProgress((value) => setLoading(value));
       
       const { loadCharacter } = setCharacter(renderer, scene, camera);
 
@@ -152,19 +148,7 @@ const Scene = () => {
 
           const character = gltf.scene;
 
-          // const originalhair = character.getObjectByName("hair");
-          // const originalhead = character.getObjectByName("Plane007");
-          // const originalears = character.getObjectByName("Ear001");
-          // const originaleyes = character.getObjectByName("EYEs001");
-          // const originaleyeb = character.getObjectByName("Eyebrow");
-          // const originalneck = character.getObjectByName("Neck");
-
-          // if (originalhair) originalhair.visible = false;
-          // if (originalhead) originalhead.visible = false;
-          // if (originalears) originalears.visible = false;
-          // if (originaleyes) originaleyes.visible = false;
-          // if (originaleyeb) originaleyeb.visible = false;
-          // if (originalneck) originalneck.visible = false;
+          removeChilds(character, ["Ear001",]);
 
           character.traverse((child: any) => {
             if (!child.isMesh) return;
@@ -227,7 +211,21 @@ const Scene = () => {
           setChar(character);
           scene.add(character);
 
-          // await loadHair(character);
+          await addAccessory(
+            character, 
+            "/models/glass.glb", 
+            new THREE.Vector3(0, 1.25, .4), 
+            new THREE.Euler(0,0,0), 
+            new THREE.Vector3(1,1,1)
+          );
+
+          await addAccessory(
+            character, 
+            "/models/airpodsmax.glb", 
+            new THREE.Vector3(0, 1.7, .2),
+            new THREE.Euler(0, 0, 0),
+            new THREE.Vector3(1.85, 1.25, 1.2),
+          );
 
           headBone = character.getObjectByName("spine006") || null;
 
