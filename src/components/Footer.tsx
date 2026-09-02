@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Footer = () => {
   const [isDark, setIsDark] = useState(true);
+
+  useEffect(()=> {
+    setIsDark(true);
+  }, []);
 
   return (
     <footer

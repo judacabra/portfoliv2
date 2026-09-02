@@ -18,6 +18,7 @@ const Certifications = () => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
   useEffect(() => {
+    setIsDark(true);
   }, []);
 
   return (

@@ -50,6 +50,9 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    setIsDark(true);
+    setErrorMsg("");
+
     const errors = validate(fields);
     
     if (Object.keys(errors).length) {

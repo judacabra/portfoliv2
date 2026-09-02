@@ -9,7 +9,7 @@ import setCharacter from "./utils/character";
 import setLighting from "./utils/lighting";
 import handleResize from "./utils/resizeUtils";
 import setAnimations from "./utils/animationUtils";
-import { GLTFLoader } from "three-stdlib";
+// import { GLTFLoader } from "three-stdlib";
 
 const Scene = () => {
   const canvasDiv = useRef<HTMLDivElement | null>(null);
@@ -50,7 +50,7 @@ const Scene = () => {
     return texture;
   };
 
-  const loadAccessory = (path: string) => {
+  /*const loadAccessory = (path: string) => {
     return new Promise<THREE.Object3D>((resolve, reject) => {
       const loader = new GLTFLoader();
 
@@ -101,8 +101,7 @@ const Scene = () => {
     hair.rotation.set(.1, 5, 0);
 
     hair.scale.set(1.6, 1.3, 1.4);
-  };
-
+  };*/
 
   useEffect(() => {
     if (canvasDiv.current) {

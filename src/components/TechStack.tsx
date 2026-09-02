@@ -1,6 +1,6 @@
 import "./styles/TechStack.css";
 
-import { useState, } from "react";
+import { useEffect, useState, } from "react";
 import { motion } from "motion/react";
 
 const TechStack = () => {
@@ -18,6 +18,10 @@ const TechStack = () => {
     { skill: "Docker / DevOps", level: 70, category: "backend" },
     { skill: "AWS", level: 65, category: "backend" },
   ];
+
+  useEffect(()=> {
+    setIsDark(true);
+  }, []);
 
   return (
     <div className="techstack">
