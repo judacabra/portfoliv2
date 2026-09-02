@@ -3,7 +3,7 @@ import "./styles/Navbar.css";
 import { useEffect } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { gsap } from "gsap";
-import { ScrollSmoother } from "gsap-trial/ScrollSmoother";
+import { ScrollSmoother } from "gsap/ScrollSmoother";
 
 import HoverLinks from "./HoverLinks";
 
@@ -24,7 +24,10 @@ const Navbar = ({isDesktopView = false}) => {
     });
 
     smoother.scrollTop(0);
-    smoother.paused(true);
+    
+    if (smoother) {
+      smoother.paused(false);
+    }
 
     let links = document.querySelectorAll(".header ul a");
     

@@ -6,7 +6,7 @@ const About = () => {
       <div className="about-me">
         <h3 className="title">Sobre mí</h3>
         <p className="para">
-          Desarrollador fullstack con más de 5 años construyendo productos digitales en Cali, Colombia. 
+          Soy <b style={{ color: "#c2a4ff" }}>Julián</b>, un desarrollador fullstack con más de 5 años construyendo productos digitales en Cali, Colombia. 
           Busco equipos donde la calidad visual importe tanto como la arquitectura.
         </p>
       </div>
