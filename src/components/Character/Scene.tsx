@@ -211,7 +211,7 @@ const Scene = () => {
           setChar(character);
           scene.add(character);
 
-          await addAccessory(
+          /*await addAccessory(
             character, 
             "/models/glass.glb", 
             new THREE.Vector3(0, 1.25, .4), 
@@ -225,7 +225,7 @@ const Scene = () => {
             new THREE.Vector3(0, 1.7, .2),
             new THREE.Euler(0, 0, 0),
             new THREE.Vector3(1.85, 1.25, 1.2),
-          );
+          );*/
 
           headBone = character.getObjectByName("spine006") || null;
 
