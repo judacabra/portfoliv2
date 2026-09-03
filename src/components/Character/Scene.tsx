@@ -9,7 +9,7 @@ import setCharacter from "./utils/character";
 import setLighting from "./utils/lighting";
 import handleResize from "./utils/resizeUtils";
 import setAnimations from "./utils/animationUtils";
-import { GLTFLoader } from "three-stdlib";
+// import { GLTFLoader } from "three-stdlib";
 
 const Scene = () => {
   const { setLoading } = useLoading();
@@ -51,7 +51,7 @@ const Scene = () => {
     return texture;
   };
 
-  const loadAccessory = (path: string): Promise<THREE.Object3D> => {
+  /*const loadAccessory = (path: string): Promise<THREE.Object3D> => {
     return new Promise<THREE.Object3D>((resolve, reject) => {
       const loader = new GLTFLoader();
 
@@ -85,7 +85,7 @@ const Scene = () => {
     accessory.scale.copy(scale);
 
     bone.add(accessory);
-  };
+  };*/
 
   const removeChilds = (character: THREE.Object3D, childs: string[]): void => {
     childs.forEach(child => {
