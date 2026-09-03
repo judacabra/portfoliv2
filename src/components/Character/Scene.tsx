@@ -219,13 +219,13 @@ const Scene = () => {
             new THREE.Vector3(1,1,1)
           );
 
-          /*await addAccessory(
+          await addAccessory(
             character, 
             "/models/airpodsmax.glb", 
             new THREE.Vector3(0, 1.7, .2),
             new THREE.Euler(0, 0, 0),
             new THREE.Vector3(1.85, 1.25, 1.2),
-          );*/
+          );
 
           headBone = character.getObjectByName("spine006") || null;
 
